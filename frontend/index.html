@@ -1,11 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Planilha de gastos</title>
+    <link rel="stylesheet" href="css/estilo.css">
 </head>
+
 <body>
-    
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#"> Inicio</a></li>
+                <li><a href="#">Tabelas</a></li>
+                <li><a href="#">Relatorios</a></li>
+                <li><a href="#">Configurações</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <main>
+        <h1>Planilha de gastos</h1>
+        <table>
+            <caption>Gastos no cartão</caption>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Item</th>
+                    <th>Valor</th>
+                    <th>Metodo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>01/01/2026</td>
+                    <td>lanches</td>
+                <td>10.00</td>
+                <td>Débito</td>
+                <td>
+                    <input type="button" value="Editar">
+                    <input type="button" value="Excluir">
+                </td>
+            </tr>
+
+
+            </tbody>
+        </table>
+        <input type="button" value="Nova entrada">
+
+        <h1>Entradas</h1>
+        <table>
+            <tr>
+                <th>Data</th>
+                <th>Item</th>
+                <th>Valor</th>
+            </tr>
+            <tr>
+                <td>01/01/2026</td>
+                <td>Salário</td>
+                <td>2000.00</td>
+            </tr>
+        </table>
+    </main>
+
 </body>
+
 </html>
