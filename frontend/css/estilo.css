@@ -46,7 +46,7 @@ nav{
 nav a {
   display: inline-block;
   padding: 14px 16px;
-  color: #f0d7e6;
+  color: white;
   text-decoration: none;     
   font-weight: bold;
   font-size: 0.95rem;
@@ -55,4 +55,6 @@ nav a {
 nav a:hover {
   background-color: var(--secondary-color);
   color: #ffffff;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
 }
