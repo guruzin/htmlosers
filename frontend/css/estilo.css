@@ -88,10 +88,11 @@ table{
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 4px;
+  font-weight: bold;
   
 }
 
-input[type="button"]{
+.button{
   background-color: var(--primary-color);
   color: white;
   border: none;
@@ -100,7 +101,9 @@ input[type="button"]{
   cursor: pointer;
   margin: 4px 4px;
   display: inline-block;
-  font-weight:bolder;
+  font-weight:600;
+  text-decoration: none;
+  min-width: 90px;
 }
 
 caption{
