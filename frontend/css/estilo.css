@@ -1,43 +1,67 @@
 :root {
-  --primary-color: #3498db;
-  --text-color: #2c3e50;
-  --bg-color: #e1e9ee;
-  --secondary-color: #e74c3c;
+  --primary: #0a1128;
+  /* Azul escuro - nav */
+  --text: #000000;
+  /* Texto */
+  --bg: #e1e9ee;
+  /* Fundo das laterais */
+  --content: #172B93;
+  /* Fundo do conteúdo */
+  --secondary: #2444fd;
+  /* Dourado - h1 */
+  --support: #ffffff;
+  /* Azul de apoio */
+  --positive: #00ff00;
+  /* Verde */
+  --negative: #ff0000;
+  /* Vermelho */
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  font-family: 'Jost', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
   padding: 0 40px;
   max-width: 800px;
   margin: 0 auto;
   line-height: 1.6;
 }
 
+main {
+  max-width: 800px;
+  margin: 10px auto;
+  padding: 40px;
+  background-color: var(--content);
+  min-height: 100vh;
+  border-radius: 8px;
+}
+
 h1 {
-  color: var(--primary-color);
+  color: var(--support);
 }
 
 header {
-  background-color: var(--primary-color);
+  background-color: var(--primary);
   color: white;
   padding: 36px 18px;
-
 }
-nav{
-  background-color: var(--primary-color);
+
+nav {
+  background-color: var(--primary);
   color: white;
   font-size: 18px;
-  ul{
+
+  ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
   }
-  li{
+
+  li {
     display: inline-block;
     margin-right: 10px;
-    ul{
+
+    ul {
       list-style-type: none;
     }
   }
@@ -47,53 +71,55 @@ nav a {
   display: inline-block;
   padding: 14px 16px;
   color: white;
-  text-decoration: none;     
+  text-decoration: none;
   font-weight: bold;
   font-size: 18px;
 }
 
 nav a:hover {
-  background-color: var(--secondary-color);
+  background-color: var(--secondary);
   color: #ffffff;
   border-radius: 5px;
   transition: background-color 0.3s ease-in-out;
 }
 
-table{
+table {
   border-collapse: collapse;
   margin-bottom: 20px;
   width: 100%;
-  th, td {
+
+  th,
+  td {
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid #ddd;
     background-color: #f2f2f2;
     font-weight: 600;
   }
+
   th {
-    background-color: var(--primary-color);
+    background-color: var(--secondary);
     color: white;
   }
-
 }
+
 .button-entrada {
-  background-color: var(--primary-color);
+  background-color: var(--primary);
   color: white;
   border: none;
   padding: 16px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 20px;
+  font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 4px;
   font-weight: bold;
-  
 }
 
-.button{
-  background-color: var(--primary-color);
+.button {
+  background-color: var(--primary);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -101,14 +127,14 @@ table{
   cursor: pointer;
   margin: 4px 4px;
   display: inline-block;
-  font-weight:600;
+  font-weight: 600;
   text-decoration: none;
   min-width: 90px;
 }
 
-caption{
+caption {
   font-size: 1.8rem;
   font-weight: bold;
   margin-bottom: 10px;
-  color: var(--text-color);
+  color: var(--support);
 }
