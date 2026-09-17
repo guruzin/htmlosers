@@ -51,7 +51,7 @@ h3 {
   line-height: 1.2;
 }
 
-h1 { margin: 0 0 var(--e-3); font-size: 2.5rem; }
+h1 { margin: 0 0 var(--e-3); font-size: 2.5rem;}
 h2 { font-size: 1.75rem; }
 h3 { font-size: 1.25rem; }
 p, li { color: var(--texto); }
@@ -160,6 +160,7 @@ input[type="submit"] {
 .button-entrada {
   padding: var(--e-2) var(--e-3);
   background-color: var(--principal);
+  margin-bottom: var(--e-1);
 }
 
 .button-entrada:hover { background-color: var(--principal-escuro); }
