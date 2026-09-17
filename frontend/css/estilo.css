@@ -1,114 +1,193 @@
 :root {
-  --primary-color: #3498db;
-  --text-color: #2c3e50;
-  --bg-color: #e1e9ee;
-  --secondary-color: #e74c3c;
+  --principal: #14532d;
+  --principal-escuro: #0f3d22;
+  --sobre-principal: #ffffff;
+  --apoio: #9a3412;
+  --realce: #b45309;
+  --fundo: #f1f5f2;
+  --superficie: #ffffff;
+  --texto: #17201a;
+  --texto-fraco: #4b5563;
+  --linha: #cbd5ce;
+  --link: #7c2d12;
+  --fonte: "Nunito Sans", Arial, sans-serif;
+  --e-1: 0.5rem;
+  --e-2: 1rem;
+  --e-3: 1.5rem;
+  --e-4: 2.5rem;
 }
 
+/* Contraste conferido conforme o cálculo WCAG:
+   --texto sobre --superficie ........ 16,69:1
+   --principal sobre --superficie ....  9,11:1
+   --texto-fraco sobre --fundo .......  6,87:1
+   --sobre-principal sobre --principal  9,11:1 */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   1. TIPOGRAFIA, PÁGINA E CONTEÚDO — Isaque Barroso Neves
+   -------------------------------------------------------------------------- */
 body {
-  font-family: Arial, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  padding: 0 40px;
-  max-width: 800px;
   margin: 0 auto;
+  max-width: 62rem;
+  padding: 0 var(--e-3) var(--e-4);
+  background-color: var(--fundo);
+  color: var(--texto);
+  font-family: var(--fonte);
+  font-size: 1rem;
   line-height: 1.6;
 }
 
-h1 {
-  color: var(--primary-color);
+main { padding: var(--e-4) 0; }
+section { margin-bottom: var(--e-4); }
+
+h1,
+h2,
+h3 {
+  color: var(--principal);
+  line-height: 1.2;
 }
 
+h1 { margin: 0 0 var(--e-3); font-size: 2.5rem; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.25rem; }
+p, li { color: var(--texto); }
+a { color: var(--link); }
+img { display: block; max-width: 100%; height: auto; }
+
+/* --------------------------------------------------------------------------
+   2. CABEÇALHO E MENU — estrutura inicial de Gustavo Rocha
+   -------------------------------------------------------------------------- */
 header {
-  background-color: var(--primary-color);
-  color: white;
-  padding: 36px 18px;
-
+  padding: var(--e-2) var(--e-3);
+  background-color: var(--principal);
+  color: var(--sobre-principal);
+  border-radius: 0 0 var(--e-1) var(--e-1);
 }
-nav{
-  background-color: var(--primary-color);
-  color: white;
-  font-size: 18px;
-  ul{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-  li{
-    display: inline-block;
-    margin-right: 10px;
-    ul{
-      list-style-type: none;
-    }
-  }
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 nav a {
   display: inline-block;
-  padding: 14px 16px;
-  color: white;
-  text-decoration: none;     
-  font-weight: bold;
-  font-size: 18px;
+  padding: var(--e-1) var(--e-2);
+  color: var(--sobre-principal);
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: var(--e-1);
 }
 
-nav a:hover {
-  background-color: var(--secondary-color);
-  color: #ffffff;
-  border-radius: 5px;
-  transition: background-color 0.3s ease-in-out;
-}
+nav a:hover { background-color: var(--principal-escuro); }
 
-table{
-  border-collapse: collapse;
-  margin-bottom: 20px;
+/* --------------------------------------------------------------------------
+   3. TABELAS — Isaque Barroso Neves
+   -------------------------------------------------------------------------- */
+table {
   width: 100%;
-  th, td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    background-color: #f2f2f2;
-    font-weight: 600;
-  }
-  th {
-    background-color: var(--primary-color);
-    color: white;
-  }
-
+  margin-bottom: var(--e-3);
+  overflow: hidden;
+  background-color: var(--superficie);
+  border-collapse: collapse;
 }
+
+caption {
+  margin-bottom: var(--e-1);
+  color: var(--texto);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+th,
+td {
+  padding: var(--e-1) var(--e-2);
+  border: 1px solid var(--linha);
+  text-align: left;
+}
+
+thead th,
+tr:first-child th {
+  background-color: var(--principal);
+  color: var(--sobre-principal);
+}
+
+tbody tr:nth-child(even) { background-color: var(--fundo); }
+
+/* --------------------------------------------------------------------------
+   4. FORMULÁRIO, BOTÕES E RODAPÉ — Isaque Barroso Neves
+   -------------------------------------------------------------------------- */
+form,
+fieldset {
+  padding: var(--e-3);
+  background-color: var(--superficie);
+  border: 1px solid var(--linha);
+  border-radius: var(--e-1);
+}
+
+legend,
+label { color: var(--texto); font-weight: 700; }
+label { display: block; margin-bottom: var(--e-1); }
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  margin-bottom: var(--e-2);
+  padding: var(--e-1) var(--e-2);
+  color: var(--texto);
+  background-color: var(--superficie);
+  border: 1px solid var(--linha);
+  border-radius: var(--e-1);
+  font: inherit;
+}
+
+button,
+input[type="button"],
+input[type="submit"] {
+  padding: var(--e-1) var(--e-2);
+  color: var(--sobre-principal);
+  background-color: var(--apoio);
+  border: 0;
+  border-radius: var(--e-1);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
 .button-entrada {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 16px;
+  padding: var(--e-2) var(--e-3);
+  background-color: var(--principal);
+}
+
+.button-entrada:hover { background-color: var(--principal-escuro); }
+button:hover, .button:hover { filter: brightness(0.9); }
+
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 0.2rem solid var(--realce);
+  outline-offset: 0.15rem;
+}
+
+footer {
+  padding: var(--e-3);
+  color: var(--texto-fraco);
   text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 20px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 4px;
-  font-weight: bold;
-  
-}
-
-.button{
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin: 4px 4px;
-  display: inline-block;
-  font-weight:600;
-  text-decoration: none;
-  min-width: 90px;
-}
-
-caption{
-  font-size: 1.8rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: var(--text-color);
+  border-top: 1px solid var(--linha);
 }
