@@ -17,21 +17,12 @@
   --e-4: 2.5rem;
 }
 
-/* Contraste conferido conforme o cálculo WCAG:
-   --texto sobre --superficie ........ 16,69:1
-   --principal sobre --superficie ....  9,11:1
-   --texto-fraco sobre --fundo .......  6,87:1
-   --sobre-principal sobre --principal  9,11:1 */
-
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-/* --------------------------------------------------------------------------
-   1. TIPOGRAFIA, PÁGINA E CONTEÚDO — Isaque Barroso Neves
-   -------------------------------------------------------------------------- */
 body {
   margin: 0 auto;
   max-width: 62rem;
@@ -60,9 +51,6 @@ p, li { color: var(--texto); }
 a { color: var(--link); }
 img { display: block; max-width: 100%; height: auto; }
 
-/* --------------------------------------------------------------------------
-   2. CABEÇALHO E MENU — estrutura inicial de Gustavo Rocha
-   -------------------------------------------------------------------------- */
 header {
   padding: var(--e-2) var(--e-3);
   background-color: var(--principal);
@@ -90,9 +78,6 @@ nav a {
 
 nav a:hover { background-color: var(--principal-escuro); }
 
-/* --------------------------------------------------------------------------
-   3. TABELAS — Isaque Barroso Neves
-   -------------------------------------------------------------------------- */
 table {
   width: 100%;
   margin-bottom: var(--e-3);
@@ -124,9 +109,6 @@ tr:first-child th {
 
 tbody tr:nth-child(even) { background-color: var(--fundo); }
 
-/* --------------------------------------------------------------------------
-   4. FORMULÁRIO, BOTÕES E RODAPÉ — Isaque Barroso Neves
-   -------------------------------------------------------------------------- */
 form,
 fieldset {
   padding: var(--e-3);

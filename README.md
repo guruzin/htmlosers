@@ -39,7 +39,7 @@ Até o fim do semestre, o site permitirá cadastrar, editar e excluir receitas e
 **Arquivo:** `frontend/css/tema-noite.css`
 **O que é:** Modo noturno, indicado para consultar e registrar movimentações em ambientes com pouca luz. Nele, o fundo escuro reduz o brilho, as superfícies ficam ligeiramente mais claras e o verde claro preserva a identidade financeira do projeto.
 
-Para ligá-lo, retire o comentário da linha correspondente no `frontend/index.html`. O link já está depois do `estilo.css`.
+Para ligá-lo, retire o atributo `disabled` da linha correspondente no `frontend/index.html`. O link já está depois do `estilo.css`.
 
 ### Contraste da paleta principal
 
