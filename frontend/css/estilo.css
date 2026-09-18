@@ -85,6 +85,15 @@ nav a {
 
 nav a:hover { background-color: var(--principal-escuro); }
 
+.dark-mode {
+  margin-left: auto;
+}
+#botao-tema{
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 table {
   width: 100%;
   margin-bottom: var(--e-3);
@@ -160,6 +169,7 @@ input[type="submit"] {
 .button-entrada {
   padding: var(--e-2) var(--e-3);
   background-color: var(--principal);
+  margin-bottom: var(--e-1);
 }
 
 .button-entrada:hover { background-color: var(--principal-escuro); }
