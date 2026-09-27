@@ -125,6 +125,14 @@ tr:first-child th {
 
 tbody tr:nth-child(even) { background-color: var(--fundo); }
 
+tbody tr:nth-child(odd) {
+  background-color: var(--superficie);
+}
+
+tbody tr:hover {
+  background-color:#e2e8e3;
+}
+
 form,
 fieldset {
   padding: var(--e-3);
