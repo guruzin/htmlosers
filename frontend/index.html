@@ -5,9 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planilha de gastos</title>
+    <!-- Favicon -->
+    <link rel="icon" href="img/icone_compacto.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Ícones do Google -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link rel="stylesheet" href="css/estilo.css">
     <link rel="stylesheet" href="css/tema-noite.css" id="tema-noite" disabled>
     <script src="js/script.js" defer></script>
@@ -15,76 +19,101 @@
 
 <body>
     <header>
+        <div class="marca">
+            <img src="img/logo_cabecalho.png" alt="Logótipo Finanças em Dia" id="logo-img">
+        </div>
         <nav>
             <ul>
-                <li><a href="#"> Inicio</a></li>
+                <li><a href="#">Inicio</a></li>
                 <li><a href="#">Tabelas</a></li>
-                <li><a href="#">Relatorios</a></li>
+                <li><a href="#">Relatórios</a></li>
                 <li><a href="#">Configurações</a></li>
                 <li class="dark-mode">
-                    <button id="botao-tema">🌙</button>
+                    <button id="botao-tema">
+                        <span class="material-symbols-outlined">dark_mode</span>
+                    </button>
                 </li>
             </ul>
         </nav>
     </header>
 
-
     <main>
-        <h1>Planilha de gastos</h1>
-        <table>
-            <caption>Gastos no cartão</caption>
-            <thead>
+        <!-- Dashboard Profissional com Resumo Financeiro -->
+        <section class="resumo-dashboard">
+            <div class="cartao-resumo receitas">
+                <h3><span class="material-symbols-outlined">trending_up</span> Entradas</h3>
+                <p class="valor">R$ 2.300,00</p>
+            </div>
+            <div class="cartao-resumo saidas">
+                <h3><span class="material-symbols-outlined">trending_down</span> Gastos</h3>
+                <p class="valor">R$ 10,00</p>
+            </div>
+            <div class="cartao-resumo saldo">
+                <h3><span class="material-symbols-outlined">account_balance_wallet</span> Saldo Atual</h3>
+                <p class="valor">R$ 2.290,00</p>
+            </div>
+        </section>
+
+        <!-- Tabelas -->
+        <section class="cartao">
+            <h1>Planilha de gastos</h1>
+            <table>
+                <caption>Gastos no cartão</caption>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Item</th>
+                        <th>Valor</th>
+                        <th>Metodo</th>
+                        <!-- Classe adicionada para bloquear a coluna -->
+                        <th class="coluna-acoes">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>01/01/2026</td>
+                        <td>Lanches</td>
+                        <td>10.00</td>
+                        <td>Débito</td>
+                        <!-- Classe adicionada na célula também -->
+                        <td class="coluna-acoes">
+                            <div class="botoes-acao">
+                                <input type="button" value="Editar" class="botao-secundario">
+                                <input type="button" value="Excluir" class="botao-secundario">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <input type="button" value="Nova entrada" class="button-entrada">
+        </section>
+
+        <section class="cartao">
+            <h1>Entradas</h1>
+            <table>
+                <caption>Histórico de Receitas</caption>
+                <thead>
                 <tr>
                     <th>Data</th>
                     <th>Item</th>
                     <th>Valor</th>
-                    <th>Metodo</th>
-                    <th>Ações</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr>
                     <td>01/01/2026</td>
-                    <td>lanches</td>
-                    <td>10.00</td>
-                    <td>Débito</td>
-                    <td>
-                        <input type="button" value="Editar" class="button">
-                        <input type="button" value="Excluir" class="button">
-                    </td>
+                    <td>Salário</td>
+                    <td>2000.00</td>
                 </tr>
-
-
-            </tbody>
-        </table>
-        <input type="button" value="Nova entrada" class="button-entrada">
-
-        <h1>Entradas</h1>
-        <table>
-            <caption>Entradas</caption>
-
-            <thead>
-            <tr>
-                <th>Data</th>
-                <th>Item</th>
-                <th>Valor</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>01/01/2026</td>
-                <td>Salário</td>
-                <td>2000.00</td>
-            </tr>
-            <tr>
-                <td>10/01/2026</td>
-                <td>Venda</td>
-                <td>300.00</td>
-            </tr>
-            </tbody>
-        </table>
+                <tr>
+                    <td>10/01/2026</td>
+                    <td>Venda</td>
+                    <td>300.00</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
     </main>
 
 </body>
-
 </html>
