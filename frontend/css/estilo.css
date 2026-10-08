@@ -1,3 +1,6 @@
+/* --------------------------------------------------------------------------
+   1. O :ROOT E O TEMA — Isaque Barroso Neves
+   -------------------------------------------------------------------------- */
 :root {
   --principal: #14532d;
   --principal-escuro: #0f3d22;
@@ -23,6 +26,9 @@
   box-sizing: border-box;
 }
 
+/* --------------------------------------------------------------------------
+   2. TIPOGRAFIA E ESCALA — Ramon Augusto de Souza Alves Maciel
+   -------------------------------------------------------------------------- */
 body {
   margin: 0 auto;
   max-width: 62rem;
@@ -34,40 +40,107 @@ body {
   line-height: 1.6;
 }
 
-main {
-  max-width: 50rem;
-  min-height: 100vh;
-  margin: var(--e-1) auto;
-  padding: var(--e-4);
-  background-color: var(--superficie);
-  border-radius: var(--e-1);
-}
-section { margin-bottom: var(--e-4); }
-
-h1,
-h2,
-h3 {
-  color: var(--principal);
-  line-height: 1.2;
-}
-
 h1 { margin: 0 0 var(--e-3); font-size: 2.5rem; }
 h2 { font-size: 1.75rem; }
 h3 { font-size: 1.25rem; }
+
+/* --------------------------------------------------------------------------
+   3. PÁGINA E CONTEÚDO — Gabriel Lima Huebra
+   -------------------------------------------------------------------------- */
+main {
+  max-width: 50rem;
+  min-height: 100vh;
+  margin: var(--e-4) auto;
+}
+
+/* Dashboard de Resumo */
+.resumo-dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--e-3);
+  margin-bottom: var(--e-4);
+}
+
+.cartao-resumo {
+  background-color: var(--superficie);
+  padding: var(--e-3);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-top: 4px solid var(--principal);
+}
+
+.cartao-resumo.saidas { border-top-color: var(--apoio); }
+.cartao-resumo.saldo { border-top-color: var(--realce); }
+
+.cartao-resumo h3 {
+  font-size: 1rem;
+  color: var(--texto-fraco);
+  margin: 0 0 var(--e-1) 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cartao-resumo .valor {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--texto);
+  margin: 0;
+}
+
+/* Cartões Gerais */
+.cartao {
+  background-color: var(--superficie);
+  padding: var(--e-4);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: var(--e-4);
+}
+
+section { margin-bottom: var(--e-4); }
+h1, h2, h3 { color: var(--principal); line-height: 1.2; }
 p, li { color: var(--texto); }
 a { color: var(--link); }
 img { display: block; max-width: 100%; height: auto; }
 
+/* --------------------------------------------------------------------------
+   4. CABEÇALHO E MENU — Gustavo Rocha
+   -------------------------------------------------------------------------- */
 header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--e-2);
   padding: var(--e-2) var(--e-3);
   background-color: var(--principal);
   color: var(--sobre-principal);
   border-radius: 0 0 var(--e-1) var(--e-1);
 }
 
+.marca {
+  background-color: transparent !important;
+  display: flex;
+  align-items: center;
+  height: 50px; 
+  overflow: hidden; 
+  padding: 0;
+  box-shadow: none;
+}
+
+.marca img {
+  height: 150px; 
+  margin: -50px 0; 
+  background-color: transparent !important;
+}
+
+nav { flex-grow: 1; }
+
 nav ul {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
   gap: var(--e-1);
   margin: 0;
   padding: 0;
@@ -84,16 +157,29 @@ nav a {
 }
 
 nav a:hover { background-color: var(--principal-escuro); }
+.dark-mode { margin-left: var(--e-2); }
 
-.dark-mode {
-  margin-left: auto;
-}
-#botao-tema{
+#botao-tema {
   background: none;
   border: none;
   cursor: pointer;
+  color: var(--sobre-principal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
+#botao-tema span {
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+#botao-tema:hover span { transform: scale(1.1); }
+
+/* --------------------------------------------------------------------------
+   5. TABELA — Jairo de Oliveira Santos Júnior
+   -------------------------------------------------------------------------- */
 table {
   width: 100%;
   margin-bottom: var(--e-3);
@@ -110,91 +196,85 @@ caption {
   text-align: left;
 }
 
-th,
-td {
-  padding: var(--e-1) var(--e-2);
-  border: 1px solid var(--linha);
+th, td {
+  padding: var(--e-2) var(--e-3);
+  border-bottom: 1px solid var(--linha);
+  border-top: none;
+  border-left: none;
+  border-right: none;
   text-align: left;
 }
 
-thead th,
-tr:first-child th {
-  background-color: var(--principal);
-  color: var(--sobre-principal);
+.coluna-acoes {
+  white-space: nowrap; 
+  width: 1%; 
 }
 
+.botoes-acao {
+  display: flex;
+  flex-wrap: nowrap; 
+  gap: 0.5rem;
+}
+
+thead th, tr:first-child th { background-color: var(--principal); color: var(--sobre-principal); }
 tbody tr:nth-child(even) { background-color: var(--fundo); }
+tbody tr:nth-child(odd) { background-color: var(--superficie); }
+tbody tr:hover { background-color:#e2e8e3; }
 
-tbody tr:nth-child(odd) {
-  background-color: var(--superficie);
+/* --------------------------------------------------------------------------
+   6. FORMULÁRIO E RODAPÉ — Isaque Barroso Neves
+   -------------------------------------------------------------------------- */
+form, fieldset { 
+  padding: var(--e-3); 
+  background-color: var(--superficie); 
+  border: 1px solid var(--linha); 
+  border-radius: var(--e-1); 
 }
 
-tbody tr:hover {
-  background-color:#e2e8e3;
-}
-
-form,
-fieldset {
-  padding: var(--e-3);
-  background-color: var(--superficie);
-  border: 1px solid var(--linha);
-  border-radius: var(--e-1);
-}
-
-legend,
-label { color: var(--texto); font-weight: 700; }
+legend, label { color: var(--texto); font-weight: 700; }
 label { display: block; margin-bottom: var(--e-1); }
 
-input[type="text"],
-input[type="email"],
-input[type="number"],
-input[type="date"],
-select,
-textarea {
-  width: 100%;
-  margin-bottom: var(--e-2);
-  padding: var(--e-1) var(--e-2);
-  color: var(--texto);
-  background-color: var(--superficie);
-  border: 1px solid var(--linha);
-  border-radius: var(--e-1);
+input[type="text"], input[type="email"], input[type="number"], input[type="date"], select, textarea {
+  width: 100%; 
+  margin-bottom: var(--e-2); 
+  padding: var(--e-1) var(--e-2); 
+  color: var(--texto); 
+  background-color: var(--superficie); 
+  border: 1px solid var(--linha); 
+  border-radius: var(--e-1); 
   font: inherit;
 }
 
-button,
-input[type="button"],
-input[type="submit"] {
-  padding: var(--e-1) var(--e-2);
-  color: var(--sobre-principal);
-  background-color: var(--apoio);
-  border: 0;
-  border-radius: var(--e-1);
-  cursor: pointer;
-  font: inherit;
-  font-weight: 700;
+button, input[type="button"], input[type="submit"] {
+  padding: var(--e-1) var(--e-2); 
+  color: var(--sobre-principal); 
+  background-color: var(--apoio); 
+  border: 0; 
+  border-radius: var(--e-1); 
+  cursor: pointer; 
+  font: inherit; 
+  font-weight: 700; 
+  transition: all 0.3s ease;
 }
 
-.button-entrada {
-  padding: var(--e-2) var(--e-3);
-  background-color: var(--principal);
-  margin-bottom: var(--e-1);
+.button-entrada { 
+  padding: var(--e-2) var(--e-3); 
+  background-color: var(--principal); 
+  margin-bottom: var(--e-1); 
+}
+
+.botao-secundario { 
+  background-color: transparent; 
+  color: var(--apoio); 
+  border: 1px solid var(--apoio); 
+}
+
+.botao-secundario:hover { 
+  background-color: var(--apoio); 
+  color: var(--sobre-principal); 
 }
 
 .button-entrada:hover { background-color: var(--principal-escuro); }
 button:hover, .button:hover { filter: brightness(0.9); }
-
-a:focus,
-button:focus,
-input:focus,
-select:focus,
-textarea:focus {
-  outline: 0.2rem solid var(--realce);
-  outline-offset: 0.15rem;
-}
-
-footer {
-  padding: var(--e-3);
-  color: var(--texto-fraco);
-  text-align: center;
-  border-top: 1px solid var(--linha);
-}
+a:focus, button:focus, input:focus, select:focus, textarea:focus { outline: 0.2rem solid var(--realce); outline-offset: 0.15rem; }
+footer { padding: var(--e-3); color: var(--texto-fraco); text-align: center; border-top: 1px solid var(--linha); }
