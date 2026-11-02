@@ -278,3 +278,45 @@ button, input[type="button"], input[type="submit"] {
 button:hover, .button:hover { filter: brightness(0.9); }
 a:focus, button:focus, input:focus, select:focus, textarea:focus { outline: 0.2rem solid var(--realce); outline-offset: 0.15rem; }
 footer { padding: var(--e-3); color: var(--texto-fraco); text-align: center; border-top: 1px solid var(--linha); }
+
+#form-gasto {
+    margin-top: var(--e-3);
+}
+
+#form-gasto h2 {
+    margin-top: 0;
+}
+
+#form-gasto button[type="submit"] {
+    background-color: var(--principal);
+}
+
+#cancelar-gasto {
+    background-color: var(--texto-fraco);
+}
+
+#mensagem-entrada {
+    font-weight: 700;
+    color: var(--principal);
+}
+
+#form-entrada {
+    margin-top: var(--e-3);
+}
+
+#form-entrada h2 {
+    margin-top: 0;
+}
+
+#form-entrada button[type="submit"] {
+    background-color: var(--principal);
+}
+
+#cancelar-entrada {
+    background-color: var(--texto-fraco);
+}
+
+#mensagem-entrada {
+    font-weight: 700;
+    color: var(--principal);
+}

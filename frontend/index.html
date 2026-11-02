@@ -58,7 +58,7 @@
         <section class="cartao">
             <h1>Planilha de gastos</h1>
             <table>
-                <caption>Gastos no cartão</caption>
+                <caption>Histórico de Gastos</caption>
                 <thead>
                     <tr>
                         <th>Data</th>
@@ -69,23 +69,41 @@
                         <th class="coluna-acoes">Ações</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>01/01/2026</td>
-                        <td>Lanches</td>
-                        <td>10.00</td>
-                        <td>Débito</td>
-                        <!-- Classe adicionada na célula também -->
-                        <td class="coluna-acoes">
-                            <div class="botoes-acao">
-                                <input type="button" value="Editar" class="botao-secundario">
-                                <input type="button" value="Excluir" class="botao-secundario">
-                            </div>
-                        </td>
-                    </tr>
+                <tbody id="lista-gastos">
                 </tbody>
             </table>
-            <input type="button" value="Nova entrada" class="button-entrada">
+            <button type="button" id="botao-novo-gasto" class="button-entrada">
+                + Novo gasto
+            </button>
+            <form id="form-gasto" hidden>
+
+                <h2>Novo gasto</h2>
+
+                <label for="descricao">Descrição da compra</label>
+                <input type="text" id="descricao" name="descricao" placeholder="Ex.: Supermercado" required>
+
+                <label for="metodo_pagamento">Método de pagamento</label>
+                <select id="metodo_pagamento" name="metodo_pagamento" required placeholder="Selecione">
+                    <option value="Débito">Débito</option>
+                    <option value="Dinheiro">Dinheiro</option>
+                    <option value="Crédito">Crédito</option>
+                </select>
+
+                <label for="data">Data da compra</label>
+                <input type="date" id="data" name="data" required>
+
+                <label for="valor">Valor (R$)</label>
+                <input type="number" id="valor" name="valor" min="0.01" step="0.01" placeholder="0.00" required>
+
+                <button type="submit">Salvar gasto</button>
+
+                <button type="button" id="cancelar-gasto">
+                    Cancelar
+                </button>
+
+                <p id="mensagem-gasto"></p>
+
+            </form>
         </section>
 
         <section class="cartao">
@@ -93,27 +111,43 @@
             <table>
                 <caption>Histórico de Receitas</caption>
                 <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Item</th>
-                    <th>Valor</th>
-                </tr>
+                    <tr>
+                        <th>Data</th>
+                        <th>Item</th>
+                        <th>Valor</th>
+                    </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td>01/01/2026</td>
-                    <td>Salário</td>
-                    <td>2000.00</td>
-                </tr>
-                <tr>
-                    <td>10/01/2026</td>
-                    <td>Venda</td>
-                    <td>300.00</td>
-                </tr>
+                <tbody id="lista-receitas">
+
                 </tbody>
             </table>
+            <button type="button" id="botao-novo-entrada" class="button-entrada">
+                + Nova entrada
+            </button>
+
+            <form id="form-entrada" hidden>
+
+                <h2>Nova entrada</h2>
+
+                <label for="item">Item da entrada</label>
+                <input type="text" id="item" name="item" placeholder="Ex.: Salário" required>
+
+                <label for="data">Data</label>
+                <input type="date" id="data" name="data" required>
+
+                <label for="valor">Valor (R$)</label>
+                <input type="number" id="valor" name="valor" min="0.01" step="0.01" placeholder="0.00" required>
+
+                <button type="submit">Salvar entrada</button>
+
+                <button type="button" id="cancelar-entrada">
+                    Cancelar
+                </button>
+                <p id="mensagem-entrada"></p>
+            </form>
         </section>
     </main>
 
 </body>
+
 </html>
