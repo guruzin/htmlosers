@@ -2,7 +2,7 @@
 
 **Assunto:** Uma plataforma de controle financeiro pessoal para registrar receitas e despesas, acompanhar gastos no cartão e organizar o orçamento mensal.
 
-**Equipe:** Gustavo Rocha, Gabriel Lima Huebra, Ramon Augusto de Souza Alves Maciel, Jairo de Oliveira Santos Júnior e Isaque Barroso Neves.
+**Equipe:** Gustavo Rocha, Ramon Augusto de Souza Alves Maciel, Jairo de Oliveira Santos Júnior e Isaque Barroso Neves.
 **Disciplina:** ARA0062 — Desenvolvimento Web em HTML5, CSS, JavaScript e PHP
 **Centro Universitário Newton Paiva · 2026/2**
 
