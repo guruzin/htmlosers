@@ -82,7 +82,6 @@ Para ligá-lo, retire o comentário da linha correspondente no `frontend/index.h
 | Integrante | Parte da folha de estilo |
 |---|---|
 | Gustavo Rocha | Estrutura inicial, cabeçalho, menu e botões. |
-| Gabriel Lima Huebra | Revisão da página, do conteúdo e das listas. |
 | Ramon Augusto de Souza Alves Maciel | Revisão da tipografia, escala e largura da coluna. |
 | Jairo de Oliveira Santos Júnior | Revisão das tabelas, cabeçalhos e linhas alternadas. |
 | Isaque Barroso Neves | Paleta, tema noturno, formulários, rodapé, foco e adequação final à rubrica. |
