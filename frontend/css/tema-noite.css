@@ -1,4 +1,5 @@
 :root {
+  --hover-table: #374b3e;
   --principal: #86efac;
   --principal-escuro: #bbf7d0;
   --sobre-principal: #052e16;
@@ -10,4 +11,5 @@
   --texto-fraco: #d1d5db;
   --linha: #4b5563;
   --link: #fed7aa;
+  --emcima: #374b3e;
 }

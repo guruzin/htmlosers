@@ -40,22 +40,22 @@
     <main>
         <!-- Dashboard Profissional com Resumo Financeiro -->
         <section class="resumo-dashboard">
-            <div class="cartao-resumo receitas">
+            <div class="planilha-resumo receitas">
                 <h3><span class="material-symbols-outlined">trending_up</span> Entradas</h3>
-                <p class="valor">R$ 2.300,00</p>
+                <p class="valor" id="total-receitas">R$ 0,00</p>
             </div>
-            <div class="cartao-resumo saidas">
+            <div class="planilha-resumo saidas">
                 <h3><span class="material-symbols-outlined">trending_down</span> Gastos</h3>
-                <p class="valor">R$ 10,00</p>
+                <p class="valor" id="total-gastos">R$ 0,00</p>
             </div>
-            <div class="cartao-resumo saldo">
+            <div class="planilha-resumo saldo">
                 <h3><span class="material-symbols-outlined">account_balance_wallet</span> Saldo Atual</h3>
-                <p class="valor">R$ 2.290,00</p>
+                <p class="valor" id="saldo-total">R$ 0,00</p>
             </div>
         </section>
 
         <!-- Tabelas -->
-        <section class="cartao">
+        <section class="planilha">
             <h1>Planilha de gastos</h1>
             <table>
                 <caption>Histórico de Gastos</caption>
@@ -106,7 +106,7 @@
             </form>
         </section>
 
-        <section class="cartao">
+        <section class="planilha">
             <h1>Entradas</h1>
             <table>
                 <caption>Histórico de Receitas</caption>
@@ -115,6 +115,7 @@
                         <th>Data</th>
                         <th>Item</th>
                         <th>Valor</th>
+                        <th class="coluna-acoes">Ações</th>
                     </tr>
                 </thead>
                 <tbody id="lista-receitas">
@@ -147,6 +148,37 @@
             </form>
         </section>
     </main>
+
+    <!-- Janela de confirmação de exclusão -->
+<div id="modal-confirmacao" class="modal-overlay" hidden>
+
+    <div class="modal-confirmacao">
+
+        <span class="material-symbols-outlined icone-alerta">
+            warning
+        </span>
+
+        <h2>Tem certeza?</h2>
+
+        <p>
+            Essa ação não poderá ser desfeita.
+            Deseja realmente apagar este registro?
+        </p>
+
+        <div class="botoes-modal">
+            <button type="button" id="cancelar-exclusao">
+                Cancelar
+            </button>
+
+            <button type="button" id="confirmar-exclusao">
+                Tenho certeza
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
 
 </body>
 
