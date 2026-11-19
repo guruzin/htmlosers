@@ -1,4 +1,11 @@
 
+ // ==========================================
+ // CONTROLE DE EDIÇÃO
+ // ==========================================
+
+let registroEmEdicao = null;
+
+
 // ==========================================
 // MODO ESCURO
 // ==========================================
@@ -42,7 +49,15 @@ const listaGastos = document.querySelector("#lista-gastos");
 // Abrir formulário de gastos
 botaoNovoGasto.addEventListener("click", () => {
     formularioGasto.hidden = false;
+
+    // Se não estiver editando, garantir formulário de cadastro
+    if (!registroEmEdicao) {
+        formularioGasto.reset();
+        mensagemGasto.textContent = "";
+        formularioGasto.querySelector('button[type="submit"]').textContent = "Salvar gasto";
+    }
 });
+
 
 // Fechar formulário de gastos
 cancelarGasto.addEventListener("click", () => {
@@ -51,12 +66,13 @@ cancelarGasto.addEventListener("click", () => {
     mensagemGasto.textContent = "";
 
     registroEmEdicao = null;
+
     formularioGasto.querySelector('button[type="submit"]').textContent = "Salvar gasto";
 });
 
 
 // ==========================================
-// CADASTRAR GASTO
+// CADASTRAR / EDITAR GASTO
 // ==========================================
 
 formularioGasto.addEventListener("submit", async (evento) => {
@@ -92,6 +108,7 @@ formularioGasto.addEventListener("submit", async (evento) => {
         formularioGasto.hidden = true;
 
         registroEmEdicao = null;
+
         formularioGasto.querySelector('button[type="submit"]').textContent = "Salvar gasto";
 
         await carregarGastos();
@@ -192,7 +209,15 @@ const mensagemEntrada = document.getElementById("mensagem-entrada");
 // Abrir formulário de entradas
 botaoNovaEntrada.addEventListener("click", () => {
     formularioEntrada.hidden = false;
+
+    // Se não estiver editando, garantir formulário de cadastro
+    if (!registroEmEdicao) {
+        formularioEntrada.reset();
+        mensagemEntrada.textContent = "";
+        formularioEntrada.querySelector('button[type="submit"]').textContent = "Salvar entrada";
+    }
 });
+
 
 // Fechar formulário de entradas
 cancelarEntrada.addEventListener("click", () => {
@@ -201,12 +226,13 @@ cancelarEntrada.addEventListener("click", () => {
     mensagemEntrada.textContent = "";
 
     registroEmEdicao = null;
+
     formularioEntrada.querySelector('button[type="submit"]').textContent = "Salvar entrada";
 });
 
 
 // ==========================================
-// CADASTRAR ENTRADA
+// CADASTRAR / EDITAR ENTRADA
 // ==========================================
 
 formularioEntrada.addEventListener("submit", async (evento) => {
@@ -242,6 +268,7 @@ formularioEntrada.addEventListener("submit", async (evento) => {
         formularioEntrada.hidden = true;
 
         registroEmEdicao = null;
+
         formularioEntrada.querySelector('button[type="submit"]').textContent = "Salvar entrada";
 
         await carregarEntradas();
@@ -445,6 +472,7 @@ confirmarExclusao.addEventListener("click", async () => {
 // ==========================================
 
 function criarBotoesAcoes(id, tipo, dados) {
+
     const coluna = document.createElement("td");
 
     const botaoEditar = document.createElement("button");
@@ -469,16 +497,23 @@ function criarBotoesAcoes(id, tipo, dados) {
     return coluna;
 }
 
+
+// ==========================================
+// EDITAR REGISTRO
+// ==========================================
+
 function editarRegistro(id, tipo, dados) {
+
     registroEmEdicao = { id, tipo };
 
     if (tipo === "gasto") {
+
         formularioGasto.hidden = false;
 
-        document.getElementById("descricao").value = dados.descricao;
-        document.getElementById("metodo_pagamento").value = dados.metodo_pagamento;
-        document.getElementById("data").value = dados.data_compra;
-        document.getElementById("valor").value = dados.valor;
+        formularioGasto.querySelector('[name="descricao"]').value = dados.descricao;
+        formularioGasto.querySelector('[name="metodo_pagamento"]').value = dados.metodo_pagamento;
+        formularioGasto.querySelector('[name="data"]').value = dados.data_compra;
+        formularioGasto.querySelector('[name="valor"]').value = dados.valor;
 
         formularioGasto.querySelector('button[type="submit"]').textContent = "Atualizar gasto";
 
@@ -486,19 +521,21 @@ function editarRegistro(id, tipo, dados) {
         formularioGasto.scrollIntoView({ behavior: "smooth" });
 
     } else {
+
         formularioEntrada.hidden = false;
 
-        document.getElementById("item").value = dados.item;
-        document.getElementById("data").value = dados.data;
-        document.getElementById("valor").value = dados.valor;
+        formularioEntrada.querySelector('[name="item"]').value = dados.item;
+        formularioEntrada.querySelector('[name="data"]').value = dados.data;
+        formularioEntrada.querySelector('[name="valor"]').value = dados.valor;
 
         formularioEntrada.querySelector('button[type="submit"]').textContent = "Atualizar entrada";
 
         mensagemEntrada.textContent = "Editando entrada...";
         formularioEntrada.scrollIntoView({ behavior: "smooth" });
-    }
-}
 
+    }
+
+}
 
 
 // ==========================================
