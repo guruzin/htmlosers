@@ -1,7 +1,7 @@
 <?php
 
 header("Content-Type: application/json; charset=UTF-8");
-require_once "config/conexao.php";
+require_once __DIR__ . "/config/conexao.php";
 
 $id = $_POST["id"] ?? "";
 $descricao = trim($_POST["descricao"] ?? "");
@@ -29,31 +29,35 @@ if (
 
 try {
     $sql = "UPDATE gastos
-            SET descricao = :descricao,
-                metodo_pagamento = :metodo,
-                data_compra = :data,
-                valor = :valor
-            WHERE id = :id";
+            SET descricao = ?,
+                metodo_pagamento = ?,
+                data_compra = ?,
+                valor = ?
+            WHERE id = ?";
 
     $comando = $conexao->prepare($sql);
 
-    $comando->execute([
-        ":descricao" => $descricao,
-        ":metodo" => $metodo,
-        ":data" => $data,
-        ":valor" => $valor,
-        ":id" => $id
-    ]);
+    $comando->bind_param(
+        "sssdi",
+        $descricao,
+        $metodo,
+        $data,
+        $valor,
+        $id
+    );
+
+    $comando->execute();
 
     echo json_encode([
         "sucesso" => true,
         "mensagem" => "Gasto atualizado com sucesso!"
     ]);
 
-} catch (PDOException $erro) {
+} catch (mysqli_sql_exception $erro) {
     http_response_code(500);
     echo json_encode([
         "sucesso" => false,
         "mensagem" => "Erro ao atualizar gasto."
     ]);
 }
+?>

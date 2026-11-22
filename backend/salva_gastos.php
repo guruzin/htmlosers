@@ -2,7 +2,7 @@
 
 header("Content-Type: application/json; charset=UTF-8");
 
-require_once "config/conexao.php";
+require_once __DIR__ . "/config/conexao.php";
 
 $descricao = trim($_POST["descricao"] ?? "");
 $metodo = $_POST["metodo_pagamento"] ?? "";
@@ -19,35 +19,38 @@ if (
     (float)$valor <= 0
 ) {
     http_response_code(400);
+
     echo json_encode([
         "sucesso" => false,
         "mensagem" => "Preencha todos os campos corretamente."
     ]);
+
     exit;
 }
 
 try {
 
+    // Prepara o comando SQL
     $sql = "INSERT INTO gastos
             (descricao, metodo_pagamento, data_compra, valor)
-            VALUES (:descricao, :metodo, :data, :valor)";
+            VALUES (?, ?, ?, ?)";
 
     $comando = $conexao->prepare($sql);
 
-    $comando->execute([
-        ":descricao" => $descricao,
-        ":metodo" => $metodo,
-        ":data" => $data,
-        ":valor" => $valor
-    ]);
+    // Vincula os valores ao comando
+    $comando->bind_param("sssd", $descricao, $metodo, $data, $valor);
 
+    // Executa o cadastro
+    $comando->execute();
+
+    // Retorna sucesso em JSON
     echo json_encode([
         "sucesso" => true,
         "mensagem" => "Gasto cadastrado com sucesso!",
-        "id" => $conexao->lastInsertId()
+        "id" => $conexao->insert_id
     ]);
 
-} catch (PDOException $erro) {
+} catch (mysqli_sql_exception $erro) {
 
     http_response_code(500);
 
@@ -56,3 +59,5 @@ try {
         "mensagem" => "Não foi possível salvar o gasto."
     ]);
 }
+
+?>

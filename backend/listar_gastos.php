@@ -1,28 +1,22 @@
-
 <?php
 
 header("Content-Type: application/json; charset=UTF-8");
 
-require_once "config/conexao.php";
+require_once __DIR__ . "/config/conexao.php";
 
-try {
+$sql = "SELECT * FROM gastos ORDER BY data_compra DESC";
 
-    $sql = "SELECT id, descricao, metodo_pagamento, data_compra, valor
-            FROM gastos
-            ORDER BY data_compra DESC";
+$resultado = $conexao->query($sql);
 
-    $comando = $conexao->query($sql);
-
-    $gastos = $comando->fetchAll(PDO::FETCH_ASSOC);
-
-    echo json_encode($gastos);
-
-} catch (PDOException $erro) {
-
-    http_response_code(500);
-
+if (!$resultado) {
     echo json_encode([
-        "sucesso" => false,
-        "mensagem" => "Erro ao listar gastos."
+        "erro" => $conexao->error
     ]);
+    exit;
 }
+
+$gastos = $resultado->fetch_all(MYSQLI_ASSOC);
+
+echo json_encode($gastos);
+
+?>
