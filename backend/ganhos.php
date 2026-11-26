@@ -1,60 +1,43 @@
-
 <?php
+// Recebe o formulário "Nova entrada" e grava na tabela ganhos com INSERT.
 
 header("Content-Type: application/json; charset=UTF-8");
-
 require_once __DIR__ . "/config/conexao.php";
 
 $item = trim($_POST["item"] ?? "");
 $data = $_POST["data"] ?? "";
 $valor = $_POST["valor"] ?? "";
 
+// Confere de novo no servidor (o JavaScript pode ser desligado)
 if (
-    $item === "" ||
+    mb_strlen($item) < 3 ||
     $data === "" ||
     !is_numeric($valor) ||
     (float)$valor <= 0
 ) {
     http_response_code(400);
-
     echo json_encode([
         "sucesso" => false,
         "mensagem" => "Preencha todos os campos corretamente."
     ]);
-
     exit;
 }
 
 try {
-
-    // Prepara o comando SQL
-    $sql = "INSERT INTO ganhos (item, data, valor)
-            VALUES (?, ?, ?)";
+    $sql = "INSERT INTO ganhos (item, data, valor) VALUES (?, ?, ?)";
 
     $comando = $conexao->prepare($sql);
+    $comando->execute([$item, $data, $valor]);
 
-    // Vincula os valores (string, string, decimal)
-    $comando->bind_param("ssd", $item, $data, $valor);
-
-    // Executa o cadastro
-    $comando->execute();
-
-    // Retorna sucesso em JSON
     echo json_encode([
         "sucesso" => true,
         "mensagem" => "Entrada cadastrada com sucesso!",
-        "id" => $conexao->insert_id
+        "id" => $conexao->lastInsertId()
     ]);
-
-} catch (mysqli_sql_exception $erro) {
-
+} catch (PDOException $erro) {
     http_response_code(500);
-
     echo json_encode([
         "sucesso" => false,
-        "mensagem" => "Não foi possível salvar a entrada.",
-        "erro" => $erro->getMessage()
+        "mensagem" => "Não foi possível salvar a entrada."
     ]);
 }
-
-?>

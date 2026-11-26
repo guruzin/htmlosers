@@ -14,6 +14,7 @@
   --linha: #cbd5ce;
   --link: #7c2d12;
   --emcima: #e2e8e3;
+  --erro: #b91c1c;
   --fonte: "Nunito Sans", Arial, sans-serif;
   --e-1: 0.5rem;
   --e-2: 1rem;
@@ -391,9 +392,9 @@ footer {
   background-color: var(--texto-fraco);
 }
 
-#mensagem-entrada {
+#mensagem-gasto {
   font-weight: 700;
-  color: var(--principal);
+  color: var(--erro);
 }
 
 #form-entrada {
@@ -414,7 +415,40 @@ footer {
 
 #mensagem-entrada {
   font-weight: 700;
+  color: var(--erro);
+}
+
+/* Validação: campo com erro e mensagem logo abaixo dele */
+input.campo-invalido,
+select.campo-invalido {
+  border: 2px solid var(--erro);
+  margin-bottom: var(--e-1);
+}
+
+.erro-campo {
+  margin: 0 0 var(--e-2);
+  color: var(--erro);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.erro-campo:empty {
+  display: none;
+}
+
+.mensagem-status {
+  font-weight: 700;
   color: var(--principal);
+}
+
+.mensagem-status:empty {
+  display: none;
+}
+
+.linha-aviso {
+  text-align: center;
+  color: var(--texto-fraco);
+  font-style: italic;
 }
 
 /* Fundo escuro por cima da página */

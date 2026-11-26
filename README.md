@@ -1,6 +1,6 @@
 # Finanças em Dia
 
-**Assunto:** Uma plataforma de controle financeiro pessoal para registrar receitas e despesas, acompanhar gastos no cartão e organizar o orçamento mensal.
+Plataforma de controle financeiro pessoal: o usuário cadastra gastos e entradas, e o site lista tudo o que está no banco de dados, com os totais e o saldo atual.
 
 **Equipe:** Gustavo Rocha, Ramon Augusto de Souza Alves Maciel, Jairo de Oliveira Santos Júnior e Isaque Barroso Neves.
 **Disciplina:** ARA0062 — Desenvolvimento Web em HTML5, CSS, JavaScript e PHP
@@ -8,11 +8,92 @@
 
 ---
 
-## Sobre o projeto
+## Como rodar no XAMPP
 
-O Finanças em Dia é uma aplicação voltada a estudantes, famílias e demais pessoas que desejam enxergar com clareza para onde vai o próprio dinheiro. A página organiza entradas e gastos em tabelas simples, reduzindo a dificuldade de acompanhar movimentações do cotidiano.
+1. Copie a pasta inteira do repositório para dentro de `C:\xampp\htdocs\` (exemplo: `C:\xampp\htdocs\ara0062-htmlosers`).
+2. No painel do XAMPP, ligue o **Apache** e o **MySQL**.
+3. Abra `http://localhost/phpmyadmin`, clique na aba **Importar** e importe o arquivo `backend/sql/banco.sql`. Ele cria o banco `planilha_gastos` com as tabelas `gastos` e `ganhos`.
+4. Abra no navegador: `http://localhost/ara0062-htmlosers/frontend/index.html` (troque `ara0062-htmlosers` pelo nome da pasta que você usou).
 
-Até o fim do semestre, o site permitirá cadastrar, editar e excluir receitas e despesas, classificar movimentações, consultar totais e emitir relatórios por período. Também deverá oferecer formulários acessíveis, visualização adaptada a diferentes telas e integração com o back-end para persistir os dados.
+A conexão usa o usuário `root` sem senha, que é o padrão do XAMPP. Se o seu MySQL tiver senha, altere em `backend/config/conexao.php`.
+
+## Como o projeto funciona (de ponta a ponta)
+
+1. **Formulário** — o usuário clica em "+ Novo gasto" ou "+ Nova entrada" e preenche o formulário (`frontend/index.html`).
+2. **JavaScript confere** — `frontend/js/script.js` valida os campos antes de enviar. Os erros aparecem em vermelho logo abaixo de cada campo, e o envio fica bloqueado enquanto houver erro. Regras:
+   - todos os campos são obrigatórios;
+   - descrição/item com no mínimo 3 e no máximo 100 caracteres;
+   - valor maior que zero e até R$ 1.000.000,00;
+   - data real, a partir de 2000 e que não esteja no futuro;
+   - método de pagamento precisa ser Dinheiro, Débito ou Crédito.
+3. **PHP grava** — o formulário é enviado para `backend/salva_gastos.php` ou `backend/ganhos.php`, que gravam com `INSERT` usando PDO e `prepare` com `?`.
+4. **Tela lista** — `backend/listar_gastos.php` e `backend/listar_ganhos.php` fazem `SELECT` no banco, e o JavaScript monta as linhas das tabelas. Nada está escrito à mão no HTML: o que for incluído no banco aparece na tela.
+
+Também é possível editar (`UPDATE`) e apagar (`DELETE`, com janela de confirmação) cada registro.
+
+## Estrutura
+
+```text
+.
+├─ README.md
+├─ frontend/
+│  ├─ index.html
+│  ├─ css/
+│  │  ├─ estilo.css
+│  │  └─ tema-noite.css
+│  ├─ js/
+│  │  └─ script.js
+│  └─ img/
+└─ backend/
+   ├─ config/
+   │  └─ conexao.php        (conexão PDO)
+   ├─ sql/
+   │  └─ banco.sql          (cria o banco e as tabelas)
+   ├─ salva_gastos.php      (INSERT de gasto)
+   ├─ ganhos.php            (INSERT de entrada)
+   ├─ listar_gastos.php     (SELECT de gastos)
+   ├─ listar_ganhos.php     (SELECT de entradas)
+   ├─ editar_gastos.php     (UPDATE de gasto)
+   ├─ editar_ganhos.php     (UPDATE de entrada)
+   ├─ apagar_gastos.php     (DELETE de gasto)
+   └─ apagar_ganhos.php     (DELETE de entrada)
+```
+
+---
+
+## Quem fez o quê
+
+### Gustavo Rocha
+**GitHub:** `@guruzin`
+
+- Estrutura da página `frontend/index.html`: cabeçalho, menu, cartões de resumo e seções das tabelas.
+- CSS do cabeçalho, do menu e dos botões (`estilo.css`, seção 4).
+- Botão de modo escuro: a função `darkMode()` no `script.js`, que liga e desliga o `tema-noite.css` e troca o logotipo.
+
+### Ramon Augusto de Souza Alves Maciel
+**GitHub:** `@Ramon1921`
+
+- Tela que lista os dados do banco: `backend/listar_gastos.php` e `backend/listar_ganhos.php` (`SELECT` com PDO, resposta em JSON).
+- No `script.js`: `carregarGastos()` e `carregarEntradas()`, que buscam os dados e montam as linhas das tabelas, e `atualizarSaldo()`, que calcula entradas, gastos e saldo.
+- Tipografia, escala e largura da coluna (`estilo.css`, seção 2).
+- Criação da logo do projeto. 
+
+### Jairo de Oliveira Santos Júnior
+**GitHub:** `@Jairo88-ux`
+
+- Banco de dados: `backend/sql/banco.sql`, que cria o banco `planilha_gastos` e as tabelas `gastos` e `ganhos`.
+- Conexão com PDO em `backend/config/conexao.php`.
+- Gravação no banco: `backend/salva_gastos.php` e `backend/ganhos.php` (`INSERT` com `prepare` e `?`, conferindo os dados de novo no servidor).
+- CSS das tabelas, cabeçalhos e linhas alternadas (`estilo.css`, seção 5).
+
+### Isaque Barroso Neves
+**GitHub:** `@IsaqueNeves`
+
+- Validação dos formulários em JavaScript (`script.js`, parte "VALIDAÇÃO"): `validarTexto()`, `validarData()`, `validarValor()`, mensagens de erro abaixo de cada campo e bloqueio do envio.
+- Editar e apagar registros: `editar_gastos.php`, `editar_ganhos.php`, `apagar_gastos.php`, `apagar_ganhos.php` e a janela de confirmação de exclusão.
+- Paleta, tema noturno, formulários e rodapé (`estilo.css`, seções 1 e 6, e `tema-noite.css`).
+
+---
 
 ## Identidade visual
 
@@ -26,62 +107,12 @@ Até o fim do semestre, o site permitirá cadastrar, editar e excluir receitas e
 | Superfície | `#ffffff` | O branco separa tabelas e formulários do fundo e facilita a leitura de muitos valores. |
 | Texto | `#17201a` | O tom quase preto mantém ótima legibilidade e é mais harmonioso com a paleta que o preto puro. |
 | Realce | `#b45309` | O âmbar torna o foco do teclado fácil de localizar e comunica atenção. |
+| Erro | `#b91c1c` | O vermelho marca os campos com erro e as mensagens de validação (6,47:1 sobre o branco). |
 
 ### Tipografia
 
-**Fonte:** "Nunito Sans", com plano B `Arial, sans-serif`
-**Pesos:** 400 e 700
-**Por que esta:** As formas abertas favorecem a leitura de números e rótulos, enquanto o aspecto amigável evita que o controle financeiro pareça intimidador.
-**Escala:** `h1` 2.5rem · `h2` 1.75rem · `h3` 1.25rem · corpo 1rem
+**Fonte:** "Nunito Sans", com plano B `Arial, sans-serif` · **Pesos:** 400 e 700 · **Escala:** `h1` 2.5rem · `h2` 1.75rem · `h3` 1.25rem · corpo 1rem
 
 ### Segundo tema
 
-**Arquivo:** `frontend/css/tema-noite.css`
-**O que é:** Modo noturno, indicado para consultar e registrar movimentações em ambientes com pouca luz. Nele, o fundo escuro reduz o brilho, as superfícies ficam ligeiramente mais claras e o verde claro preserva a identidade financeira do projeto.
-
-Para ligá-lo, retire o comentário da linha correspondente no `frontend/index.html`. O link já está depois do `estilo.css`.
-
-### Contraste da paleta principal
-
-- `--texto` sobre `--superficie`: 16,69:1
-- `--principal` sobre `--superficie`: 9,11:1
-- `--texto-fraco` sobre `--fundo`: 6,87:1
-- `--sobre-principal` sobre `--principal`: 9,11:1
-
-### Contraste do tema noturno
-
-- `--texto` sobre `--superficie`: 14,05:1
-- `--principal` sobre `--superficie`: 10,45:1
-- `--texto-fraco` sobre `--fundo`: 12,04:1
-- `--sobre-principal` sobre `--principal`: 10,62:1
-
----
-
-## Como abrir
-
-1. Abra a pasta inteira no VS Code.
-2. Abra `frontend/index.html` com a extensão Live Server.
-
-## Estrutura
-
-```text
-.
-├─ README.md
-├─ frontend/
-│  ├─ index.html
-│  └─ css/
-│     ├─ estilo.css
-│     └─ tema-noite.css
-└─ backend/
-```
-
----
-
-## Quem fez o quê
-
-| Integrante | Parte da folha de estilo |
-|---|---|
-| Gustavo Rocha | Estrutura inicial, cabeçalho, menu e botões. |
-| Ramon Augusto de Souza Alves Maciel | Revisão da tipografia, escala e largura da coluna. |
-| Jairo de Oliveira Santos Júnior | Revisão das tabelas, cabeçalhos e linhas alternadas. |
-| Isaque Barroso Neves | Paleta, tema noturno, formulários, rodapé, foco e adequação final à rubrica. |
+`frontend/css/tema-noite.css` — modo noturno, ligado e desligado pelo botão de lua/sol no menu.

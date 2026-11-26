@@ -1,4 +1,5 @@
 <?php
+// Atualiza um gasto existente com UPDATE.
 
 header("Content-Type: application/json; charset=UTF-8");
 require_once __DIR__ . "/config/conexao.php";
@@ -13,7 +14,7 @@ $metodosPermitidos = ["Dinheiro", "Débito", "Crédito"];
 
 if (
     !filter_var($id, FILTER_VALIDATE_INT) ||
-    $descricao === "" ||
+    mb_strlen($descricao) < 3 ||
     !in_array($metodo, $metodosPermitidos, true) ||
     $data === "" ||
     !is_numeric($valor) ||
@@ -29,35 +30,20 @@ if (
 
 try {
     $sql = "UPDATE gastos
-            SET descricao = ?,
-                metodo_pagamento = ?,
-                data_compra = ?,
-                valor = ?
+            SET descricao = ?, metodo_pagamento = ?, data_compra = ?, valor = ?
             WHERE id = ?";
 
     $comando = $conexao->prepare($sql);
-
-    $comando->bind_param(
-        "sssdi",
-        $descricao,
-        $metodo,
-        $data,
-        $valor,
-        $id
-    );
-
-    $comando->execute();
+    $comando->execute([$descricao, $metodo, $data, $valor, $id]);
 
     echo json_encode([
         "sucesso" => true,
         "mensagem" => "Gasto atualizado com sucesso!"
     ]);
-
-} catch (mysqli_sql_exception $erro) {
+} catch (PDOException $erro) {
     http_response_code(500);
     echo json_encode([
         "sucesso" => false,
-        "mensagem" => "Erro ao atualizar gasto."
+        "mensagem" => "Não foi possível atualizar o gasto."
     ]);
 }
-?>

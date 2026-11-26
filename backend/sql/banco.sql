@@ -1,14 +1,16 @@
+-- Finanças em Dia — cria o banco e todas as tabelas do projeto.
+-- Importe este arquivo no phpMyAdmin (aba "Importar") antes de abrir o site.
 
--- Criação do banco de dados
-CREATE DATABASE IF NOT EXISTS planilha_gastos;
+-- Garante que os acentos (ex.: 'Débito', 'Crédito') sejam lidos corretamente
+SET NAMES utf8mb4;
 
--- Seleciona o banco
+CREATE DATABASE IF NOT EXISTS planilha_gastos
+    DEFAULT CHARACTER SET utf8mb4
+    DEFAULT COLLATE utf8mb4_unicode_ci;
+
 USE planilha_gastos;
 
--- =========================================
--- TABELA DE GASTOS (SAÍDAS)
--- =========================================
-
+-- Gastos (saídas)
 CREATE TABLE IF NOT EXISTS gastos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     descricao VARCHAR(255) NOT NULL,
@@ -18,10 +20,7 @@ CREATE TABLE IF NOT EXISTS gastos (
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- =========================================
--- TABELA DE GANHOS (ENTRADAS)
--- =========================================
-
+-- Ganhos (entradas)
 CREATE TABLE IF NOT EXISTS ganhos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     item VARCHAR(255) NOT NULL,

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planilha de gastos</title>
+    <title>Finanças em Dia — Planilha de gastos</title>
     <!-- Favicon -->
     <link rel="icon" href="img/icone_compacto.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,16 +20,16 @@
 <body>
     <header>
         <div class="marca">
-            <img src="img/logo_cabecalho.png" alt="Logótipo Finanças em Dia" id="logo-img">
+            <img src="img/logo_cabecalho.png" alt="Logotipo Finanças em Dia" id="logo-img">
         </div>
         <nav>
             <ul>
-                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Início</a></li>
                 <li><a href="#">Tabelas</a></li>
                 <li><a href="#">Relatórios</a></li>
                 <li><a href="#">Configurações</a></li>
                 <li class="dark-mode">
-                    <button id="botao-tema">
+                    <button type="button" id="botao-tema" aria-label="Alternar modo escuro">
                         <span class="material-symbols-outlined">dark_mode</span>
                     </button>
                 </li>
@@ -64,7 +64,7 @@
                         <th>Data</th>
                         <th>Item</th>
                         <th>Valor</th>
-                        <th>Metodo</th>
+                        <th>Método</th>
                         <!-- Classe adicionada para bloquear a coluna -->
                         <th class="coluna-acoes">Ações</th>
                     </tr>
@@ -75,25 +75,34 @@
             <button type="button" id="botao-novo-gasto" class="button-entrada">
                 + Novo gasto
             </button>
-            <form id="form-gasto" hidden>
+            <p id="status-gasto" class="mensagem-status" role="status"></p>
+
+            <form id="form-gasto" hidden novalidate>
 
                 <h2>Novo gasto</h2>
 
                 <label for="descricao">Descrição da compra</label>
-                <input type="text" id="descricao" name="descricao" placeholder="Ex.: Supermercado" required>
+                <input type="text" id="descricao" name="descricao" placeholder="Ex.: Supermercado"
+                    required minlength="3" maxlength="100" aria-describedby="erro-descricao">
+                <p class="erro-campo" id="erro-descricao" aria-live="polite"></p>
 
                 <label for="metodo_pagamento">Método de pagamento</label>
-                <select id="metodo_pagamento" name="metodo_pagamento" required placeholder="Selecione">
+                <select id="metodo_pagamento" name="metodo_pagamento" required aria-describedby="erro-metodo_pagamento">
+                    <option value="">Selecione</option>
                     <option value="Débito">Débito</option>
                     <option value="Dinheiro">Dinheiro</option>
                     <option value="Crédito">Crédito</option>
                 </select>
+                <p class="erro-campo" id="erro-metodo_pagamento" aria-live="polite"></p>
 
-                <label for="data">Data da compra</label>
-                <input type="date" id="data" name="data" required>
+                <label for="gasto-data">Data da compra</label>
+                <input type="date" id="gasto-data" name="data" required aria-describedby="erro-gasto-data">
+                <p class="erro-campo" id="erro-gasto-data" aria-live="polite"></p>
 
-                <label for="valor">Valor (R$)</label>
-                <input type="number" id="valor" name="valor" min="0.01" step="0.01" placeholder="0.00" required>
+                <label for="gasto-valor">Valor (R$)</label>
+                <input type="number" id="gasto-valor" name="valor" min="0.01" step="0.01" placeholder="0.00"
+                    required aria-describedby="erro-gasto-valor">
+                <p class="erro-campo" id="erro-gasto-valor" aria-live="polite"></p>
 
                 <button type="submit">Salvar gasto</button>
 
@@ -101,7 +110,7 @@
                     Cancelar
                 </button>
 
-                <p id="mensagem-gasto"></p>
+                <p id="mensagem-gasto" role="alert"></p>
 
             </form>
         </section>
@@ -126,25 +135,33 @@
                 + Nova entrada
             </button>
 
-            <form id="form-entrada" hidden>
+            <p id="status-entrada" class="mensagem-status" role="status"></p>
+
+            <form id="form-entrada" hidden novalidate>
 
                 <h2>Nova entrada</h2>
 
                 <label for="item">Item da entrada</label>
-                <input type="text" id="item" name="item" placeholder="Ex.: Salário" required>
+                <input type="text" id="item" name="item" placeholder="Ex.: Salário"
+                    required minlength="3" maxlength="100" aria-describedby="erro-item">
+                <p class="erro-campo" id="erro-item" aria-live="polite"></p>
 
-                <label for="data">Data</label>
-                <input type="date" id="data" name="data" required>
+                <label for="entrada-data">Data</label>
+                <input type="date" id="entrada-data" name="data" required aria-describedby="erro-entrada-data">
+                <p class="erro-campo" id="erro-entrada-data" aria-live="polite"></p>
 
-                <label for="valor">Valor (R$)</label>
-                <input type="number" id="valor" name="valor" min="0.01" step="0.01" placeholder="0.00" required>
+                <label for="entrada-valor">Valor (R$)</label>
+                <input type="number" id="entrada-valor" name="valor" min="0.01" step="0.01" placeholder="0.00"
+                    required aria-describedby="erro-entrada-valor">
+                <p class="erro-campo" id="erro-entrada-valor" aria-live="polite"></p>
 
                 <button type="submit">Salvar entrada</button>
 
                 <button type="button" id="cancelar-entrada">
                     Cancelar
                 </button>
-                <p id="mensagem-entrada"></p>
+
+                <p id="mensagem-entrada" role="alert"></p>
             </form>
         </section>
     </main>
@@ -164,6 +181,8 @@
             Essa ação não poderá ser desfeita.
             Deseja realmente apagar este registro?
         </p>
+
+        <p id="erro-exclusao" class="erro-campo" role="alert"></p>
 
         <div class="botoes-modal">
             <button type="button" id="cancelar-exclusao">

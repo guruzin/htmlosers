@@ -4,6 +4,9 @@
 
 let registroEmEdicao = null;
 
+// Caminho relativo: funciona qualquer que seja o nome da pasta no htdocs
+const API = "../backend/";
+
 
 // ==========================================
 // MODO ESCURO
@@ -41,6 +44,7 @@ botaoTema.addEventListener("click", darkMode);
 const VALOR_MAXIMO = 1000000;
 const TAMANHO_MIN_TEXTO = 3;
 const TAMANHO_MAX_TEXTO = 100;
+const METODOS_PERMITIDOS = ["Dinheiro", "Débito", "Crédito"];
 
 // Converte "1.234,56", "1234,56" ou "1234.56" em número
 function converterValor(texto) {
@@ -139,35 +143,43 @@ function capitalizar(texto) {
     return texto.charAt(0).toUpperCase() + texto.slice(1);
 }
 
-// Marca/desmarca o campo como inválido (para estilizar no CSS)
-function marcarCampo(campo, invalido) {
+// Mostra (ou apaga) a mensagem de erro logo abaixo do campo
+// e marca o campo como inválido para o CSS deixar a borda vermelha
+function marcarCampo(campo, mensagem) {
     if (!campo) return;
+
+    const invalido = Boolean(mensagem);
+    const elementoErro = document.getElementById(`erro-${campo.id}`);
 
     campo.classList.toggle("campo-invalido", invalido);
     campo.setAttribute("aria-invalid", invalido ? "true" : "false");
+
+    if (elementoErro) {
+        elementoErro.textContent = mensagem || "";
+    }
 }
 
 function limparErros(formulario) {
-    formulario.querySelectorAll(".campo-invalido").forEach(campo => {
-        marcarCampo(campo, false);
+    formulario.querySelectorAll("input, select, textarea").forEach(campo => {
+        marcarCampo(campo, null);
     });
 }
 
-// Recebe { nomeDoCampo: mensagemDeErro | null } e exibe os erros
+// Recebe { nomeDoCampo: mensagemDeErro | null }, exibe cada erro perto
+// do seu campo e devolve false se houver algum erro (bloqueia o envio)
 function aplicarErros(formulario, elementoMensagem, erros) {
     limparErros(formulario);
+    elementoMensagem.textContent = "";
 
     const camposComErro = Object.keys(erros).filter(nome => erros[nome]);
+
+    camposComErro.forEach(nome => {
+        marcarCampo(formulario.querySelector(`[name="${nome}"]`), erros[nome]);
+    });
 
     if (camposComErro.length === 0) {
         return true;
     }
-
-    camposComErro.forEach(nome => {
-        marcarCampo(formulario.querySelector(`[name="${nome}"]`), true);
-    });
-
-    elementoMensagem.textContent = camposComErro.map(nome => erros[nome]).join(" ");
 
     // Leva o foco para o primeiro campo com erro
     formulario.querySelector(`[name="${camposComErro[0]}"]`)?.focus();
@@ -180,7 +192,7 @@ function validarGasto(dados) {
         data: validarData(dados.get("data")),
         descricao: validarTexto(dados.get("descricao"), "a descrição"),
         valor: validarValor(dados.get("valor")),
-        metodo_pagamento: String(dados.get("metodo_pagamento") ?? "").trim()
+        metodo_pagamento: METODOS_PERMITIDOS.includes(dados.get("metodo_pagamento"))
             ? null
             : "Selecione o método de pagamento."
     };
@@ -198,7 +210,7 @@ function validarEntrada(dados) {
 [document.querySelector("#form-gasto"), document.getElementById("form-entrada")]
     .forEach(formulario => {
         formulario?.addEventListener("input", evento => {
-            marcarCampo(evento.target, false);
+            marcarCampo(evento.target, null);
         });
     });
 
@@ -253,11 +265,13 @@ const formularioGasto = document.querySelector("#form-gasto");
 const cancelarGasto = document.querySelector("#cancelar-gasto");
 const mensagemGasto = document.querySelector("#mensagem-gasto");
 const listaGastos = document.querySelector("#lista-gastos");
+const statusGasto = document.querySelector("#status-gasto");
 
 
 // Abrir formulário de gastos
 botaoNovoGasto.addEventListener("click", () => {
     formularioGasto.hidden = false;
+    statusGasto.textContent = "";
 
     // Se não estiver editando um gasto, garantir formulário de cadastro
     if (registroEmEdicao?.tipo !== "gasto") {
@@ -312,7 +326,7 @@ formularioGasto.addEventListener("submit", async (evento) => {
     botaoSalvar.disabled = true; // evita envio duplicado
 
     try {
-        const resposta = await fetch(`/htmlosers/backend/${arquivo}`, {
+        const resposta = await fetch(`${API}${arquivo}`, {
             method: "POST",
             body: dados
         });
@@ -323,7 +337,8 @@ formularioGasto.addEventListener("submit", async (evento) => {
             throw new Error(resultado.mensagem || "Erro ao salvar gasto.");
         }
 
-        mensagemGasto.textContent = resultado.mensagem;
+        mensagemGasto.textContent = "";
+        statusGasto.textContent = resultado.mensagem;
 
         formularioGasto.reset();
         formularioGasto.hidden = true;
@@ -352,7 +367,7 @@ async function carregarGastos() {
 
     try {
 
-        const resposta = await fetch("/htmlosers/backend/listar_gastos.php");
+        const resposta = await fetch(`${API}listar_gastos.php`);
         const gastos = await resposta.json();
 
         if (!resposta.ok || !Array.isArray(gastos)) {
@@ -360,6 +375,10 @@ async function carregarGastos() {
         }
 
         listaGastos.innerHTML = "";
+
+        if (gastos.length === 0) {
+            mostrarLinhaAviso(listaGastos, 5, "Nenhum gasto cadastrado ainda.");
+        }
 
         // Calcular total de gastos
         totalGastos = gastos.reduce((soma, gasto) => {
@@ -403,6 +422,7 @@ async function carregarGastos() {
     } catch (erro) {
 
         console.error("Erro ao carregar gastos:", erro);
+        mostrarLinhaAviso(listaGastos, 5, "Não foi possível carregar os gastos do banco.");
 
     }
 
@@ -418,11 +438,13 @@ const botaoNovaEntrada = document.getElementById("botao-novo-entrada");
 const cancelarEntrada = document.getElementById("cancelar-entrada");
 const listaReceitas = document.getElementById("lista-receitas");
 const mensagemEntrada = document.getElementById("mensagem-entrada");
+const statusEntrada = document.getElementById("status-entrada");
 
 
 // Abrir formulário de entradas
 botaoNovaEntrada.addEventListener("click", () => {
     formularioEntrada.hidden = false;
+    statusEntrada.textContent = "";
 
     // Se não estiver editando uma entrada, garantir formulário de cadastro
     if (registroEmEdicao?.tipo !== "entrada") {
@@ -477,7 +499,7 @@ formularioEntrada.addEventListener("submit", async (evento) => {
     botaoSalvar.disabled = true; // evita envio duplicado
 
     try {
-        const resposta = await fetch(`/htmlosers/backend/${arquivo}`, {
+        const resposta = await fetch(`${API}${arquivo}`, {
             method: "POST",
             body: dados
         });
@@ -488,7 +510,8 @@ formularioEntrada.addEventListener("submit", async (evento) => {
             throw new Error(resultado.mensagem || "Erro ao salvar entrada.");
         }
 
-        mensagemEntrada.textContent = resultado.mensagem;
+        mensagemEntrada.textContent = "";
+        statusEntrada.textContent = resultado.mensagem;
 
         formularioEntrada.reset();
         formularioEntrada.hidden = true;
@@ -517,7 +540,7 @@ async function carregarEntradas() {
 
     try {
 
-        const resposta = await fetch("/htmlosers/backend/listar_ganhos.php");
+        const resposta = await fetch(`${API}listar_ganhos.php`);
         const entradas = await resposta.json();
 
         if (!resposta.ok || !Array.isArray(entradas)) {
@@ -525,6 +548,10 @@ async function carregarEntradas() {
         }
 
         listaReceitas.innerHTML = "";
+
+        if (entradas.length === 0) {
+            mostrarLinhaAviso(listaReceitas, 4, "Nenhuma entrada cadastrada ainda.");
+        }
 
         // Calcular total de entradas
         totalEntradas = entradas.reduce((soma, entrada) => {
@@ -567,9 +594,25 @@ async function carregarEntradas() {
     } catch (erro) {
 
         console.error("Erro ao carregar entradas:", erro);
+        mostrarLinhaAviso(listaReceitas, 4, "Não foi possível carregar as entradas do banco.");
 
     }
 
+}
+
+
+// Linha única na tabela para avisos (lista vazia ou erro)
+function mostrarLinhaAviso(corpoTabela, colunas, texto) {
+    corpoTabela.innerHTML = "";
+
+    const linha = document.createElement("tr");
+    const coluna = document.createElement("td");
+    coluna.colSpan = colunas;
+    coluna.className = "linha-aviso";
+    coluna.textContent = texto;
+
+    linha.appendChild(coluna);
+    corpoTabela.appendChild(linha);
 }
 
 
@@ -595,6 +638,7 @@ function atualizarSaldo() {
 const modalConfirmacao = document.getElementById("modal-confirmacao");
 const cancelarExclusao = document.getElementById("cancelar-exclusao");
 const confirmarExclusao = document.getElementById("confirmar-exclusao");
+const erroExclusao = document.getElementById("erro-exclusao");
 
 let registroParaExcluir = null;
 
@@ -607,6 +651,7 @@ function abrirModal(id, tipo) {
         tipo: tipo
     };
 
+    erroExclusao.textContent = "";
     modalConfirmacao.hidden = false;
 }
 
@@ -629,12 +674,12 @@ confirmarExclusao.addEventListener("click", async () => {
 
     // Validação do registro antes de excluir
     if (!Number.isInteger(Number(id)) || Number(id) <= 0) {
-        alert("Registro inválido.");
+        erroExclusao.textContent = "Registro inválido.";
         return;
     }
 
     if (tipo !== "gasto" && tipo !== "entrada") {
-        alert("Tipo de registro inválido.");
+        erroExclusao.textContent = "Tipo de registro inválido.";
         return;
     }
 
@@ -650,7 +695,7 @@ confirmarExclusao.addEventListener("click", async () => {
     try {
 
         const resposta = await fetch(
-            `/htmlosers/backend/${arquivo}`,
+            `${API}${arquivo}`,
             {
                 method: "POST",
                 body: formulario
@@ -671,7 +716,7 @@ confirmarExclusao.addEventListener("click", async () => {
 
     } catch (erro) {
 
-        alert(erro.message || "Não foi possível apagar o registro.");
+        erroExclusao.textContent = erro.message || "Não foi possível apagar o registro.";
 
     } finally {
 
