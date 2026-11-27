@@ -489,7 +489,7 @@ formularioEntrada.addEventListener("submit", async (evento) => {
 
     const arquivo = editando
         ? "editar_ganhos.php"
-        : "ganhos.php";
+        : "salva_ganhos.php";
 
     if (editando) {
         dados.append("id", registroEmEdicao.id);
@@ -536,6 +536,7 @@ formularioEntrada.addEventListener("submit", async (evento) => {
 // LISTAR ENTRADAS
 // ==========================================
 
+
 async function carregarEntradas() {
 
     try {
@@ -558,21 +559,23 @@ async function carregarEntradas() {
             return soma + (Number(entrada.valor) || 0);
         }, 0);
 
-        document.getElementById("total-receitas").textContent = formatarMoeda(totalEntradas);
+        document.getElementById("total-receitas").textContent =
+            formatarMoeda(totalEntradas);
 
         // Criar linhas da tabela
         entradas.forEach(entrada => {
 
             const linha = document.createElement("tr");
 
-            const dataFormatada = String(entrada.data ?? "")
+            // Formatar a data de recebimento
+            const dataFormatada = String(entrada.data_recebimento ?? "")
                 .split("-")
                 .reverse()
                 .join("/");
 
             [
                 dataFormatada,
-                entrada.item,
+                entrada.descricao,
                 formatarMoeda(entrada.valor)
             ].forEach(texto => {
 
@@ -583,7 +586,9 @@ async function carregarEntradas() {
             });
 
             // Botões de ações
-            linha.appendChild(criarBotoesAcoes(entrada.id, "entrada", entrada));
+            linha.appendChild(
+                criarBotoesAcoes(entrada.id, "entrada", entrada)
+            );
 
             listaReceitas.appendChild(linha);
 
@@ -594,11 +599,16 @@ async function carregarEntradas() {
     } catch (erro) {
 
         console.error("Erro ao carregar entradas:", erro);
-        mostrarLinhaAviso(listaReceitas, 4, "Não foi possível carregar as entradas do banco.");
+        mostrarLinhaAviso(
+            listaReceitas,
+            4,
+            "Não foi possível carregar as entradas do banco."
+        );
 
     }
 
 }
+
 
 
 // Linha única na tabela para avisos (lista vazia ou erro)
@@ -797,8 +807,8 @@ function editarRegistro(id, tipo, dados) {
         formularioEntrada.hidden = false;
         limparErros(formularioEntrada);
 
-        formularioEntrada.querySelector('[name="item"]').value = dados.item;
-        formularioEntrada.querySelector('[name="data"]').value = dados.data;
+        formularioEntrada.querySelector('[name="item"]').value = dados.descricao;
+        formularioEntrada.querySelector('[name="data"]').value = dados.data_recebimento;
         formularioEntrada.querySelector('[name="valor"]').value = dados.valor;
 
         formularioEntrada.querySelector('button[type="submit"]').textContent = "Atualizar entrada";

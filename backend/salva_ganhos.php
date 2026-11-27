@@ -1,5 +1,5 @@
+
 <?php
-// Recebe o formulário "Nova entrada" e grava na tabela ganhos com INSERT.
 
 header("Content-Type: application/json; charset=UTF-8");
 require_once __DIR__ . "/config/conexao.php";
@@ -8,7 +8,6 @@ $item = trim($_POST["item"] ?? "");
 $data = $_POST["data"] ?? "";
 $valor = $_POST["valor"] ?? "";
 
-// Confere de novo no servidor (o JavaScript pode ser desligado)
 if (
     mb_strlen($item) < 3 ||
     $data === "" ||
@@ -24,7 +23,8 @@ if (
 }
 
 try {
-    $sql = "INSERT INTO ganhos (item, data, valor) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO ganhos (descricao, data_recebimento, valor)
+            VALUES (?, ?, ?)";
 
     $comando = $conexao->prepare($sql);
     $comando->execute([$item, $data, $valor]);
@@ -34,6 +34,7 @@ try {
         "mensagem" => "Entrada cadastrada com sucesso!",
         "id" => $conexao->lastInsertId()
     ]);
+
 } catch (PDOException $erro) {
     http_response_code(500);
     echo json_encode([

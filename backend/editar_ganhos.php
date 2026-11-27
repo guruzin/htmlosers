@@ -1,3 +1,4 @@
+
 <?php
 // Atualiza uma entrada existente com UPDATE.
 
@@ -17,6 +18,7 @@ if (
     (float)$valor <= 0
 ) {
     http_response_code(400);
+
     echo json_encode([
         "sucesso" => false,
         "mensagem" => "Preencha todos os campos corretamente."
@@ -25,7 +27,10 @@ if (
 }
 
 try {
-    $sql = "UPDATE ganhos SET item = ?, data = ?, valor = ? WHERE id = ?";
+
+    $sql = "UPDATE ganhos 
+            SET descricao = ?, data_recebimento = ?, valor = ? 
+            WHERE id = ?";
 
     $comando = $conexao->prepare($sql);
     $comando->execute([$item, $data, $valor, $id]);
@@ -34,10 +39,15 @@ try {
         "sucesso" => true,
         "mensagem" => "Entrada atualizada com sucesso!"
     ]);
+
 } catch (PDOException $erro) {
+
     http_response_code(500);
+
     echo json_encode([
         "sucesso" => false,
-        "mensagem" => "Não foi possível atualizar a entrada."
+        "mensagem" => "Não foi possível atualizar a entrada.",
+        "erro" => $erro->getMessage()
     ]);
 }
+
