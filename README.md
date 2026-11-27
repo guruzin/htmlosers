@@ -66,9 +66,11 @@ Também é possível editar (`UPDATE`) e apagar (`DELETE`, com janela de confirm
 ### Gustavo Rocha
 **GitHub:** `@guruzin`
 
-- Estrutura da página `frontend/index.html`: cabeçalho, menu, cartões de resumo e seções das tabelas.
-- CSS do cabeçalho, do menu e dos botões (`estilo.css`, seção 4).
-- Botão de modo escuro: a função `darkMode()` no `script.js`, que liga e desliga o `tema-noite.css` e troca o logotipo.
+- Desenvolvimento da estrutura da página `frontend/index.html`, incluindo cabeçalho, menu, cartões de resumo e seções das tabelas.
+- Desenvolvimento do backend em PHP, incluindo conexão com o banco de dados via PDO, criação automática do banco e das tabelas e integração das operações de cadastro e listagem de gastos e ganhos.
+- Implementação e ajustes dos arquivos PHP responsáveis por receber, validar, inserir e retornar dados do banco de dados em JSON.
+- Implementação do modo escuro por meio da função `darkMode()` no `script.js`, alternando o `tema-noite.css` e o logotipo.
+- CSS do cabeçalho, menu e botões (`estilo.css`, seção 4).
 
 ### Ramon Augusto de Souza Alves Maciel
 **GitHub:** `@Ramon1921`
